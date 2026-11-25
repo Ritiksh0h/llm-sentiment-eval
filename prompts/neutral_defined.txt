@@ -1,0 +1,7 @@
+Classify the sentiment of the following tweet as positive, neutral, or negative.
+
+Label the emotion the author expresses, not the topic. An opinion, a demand, or bad news stated without emotional language is neutral.
+
+Respond with exactly one word: positive, neutral, or negative. Do not add punctuation or explanation.
+
+Tweet: {text}

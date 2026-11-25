@@ -225,3 +225,31 @@ cp .env.example .env        # fill in DEEPSEEK_API_KEY, GROQ_API_KEY and NVIDIA_
 
 `run_eval.py` writes each row as it goes and skips ids already in the results file, so rerun it after a
 crash. Delete the results file to start over. The results are committed, so scoring needs no API keys.
+
+## v2 Part 2: pre-registered (results pending)
+
+Registered on 2026-11-25, **before any API call on the 800-tweet sample and before v2 Part 1's reasoning runs** (Part 1: [`PLAN_V2.md`](PLAN_V2.md)). The git commit that adds
+this section is the timestamp. Full plan: the v2 section of [`PLAN.md`](PLAN.md).
+
+**Design.** 800 new TweetEval test tweets ([`data/sample_800.jsonl`](data/sample_800.jsonl): natural
+distribution, 242 negative / 399 neutral / 159 positive, none of v1's 200) × DeepSeek and Groq Qwen
+(same models as v1) × two prompts × reasoning off/on = 8 runs.
+
+**The new prompt** ([`prompts/neutral_defined.txt`](prompts/neutral_defined.txt)) is v1's zero-shot
+prompt plus one paragraph, written from v1's failure analysis:
+
+> Label the emotion the author expresses, not the topic. An opinion, a demand, or bad news stated without emotional language is neutral.
+
+The only check run before freezing it: 5 validation-split tweets per model, to confirm the replies are
+still a bare label (10 of 10 were). No v2 tweet has been sent to any model.
+
+**Hypotheses.** The primary tests use reasoning off, matching v1; the reasoning-on cells are exploratory
+for H1 and H2. Tests are exact McNemar on paired predictions, p < 0.05.
+
+| | Prediction | Supported if |
+|---|---|---|
+| **H1** | On Qwen, the neutral-defined prompt raises neutral recall without costing accuracy. | Neutral recall rises with p < 0.05 on the gold-neutral tweets, **and** overall accuracy is not lower. |
+| **H2** | On DeepSeek, which already over-uses neutral, the same prompt lowers positive recall further. The fix is model-specific. | Positive recall falls with p < 0.05 on the gold-positive tweets. |
+| **H3** | Turning reasoning on changes accuracy less than the prompt does, because most v1 errors were label convention, not reasoning failures. | For both models, the accuracy change from reasoning (zero-shot prompt) is smaller in size than the change from the prompt (reasoning off). This compares sizes, not significance. |
+
+Every other comparison will be reported as exploratory.

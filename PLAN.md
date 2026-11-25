@@ -227,12 +227,16 @@ Do not skip them to ship faster.
 ---
 ---
 
-# v2 — Does the fix work, and does reasoning help?
+# v2 Part 2 — Does the fix work, and does reasoning help?
 
 v1 is complete. It found **no significant difference** at n = 200, and its failure analysis produced
 one testable idea: most errors come from TweetEval calling opinions and flatly reported bad news
 "neutral", so defining neutral in the prompt should help. v2 tests that idea, and the chain-of-thought
 question v1 left out, on enough tweets to actually detect a difference.
+
+**Runs after v2 Part 1** ([`PLAN_V2.md`](PLAN_V2.md): chain-of-thought, variance and self-consistency
+on v1's 200 tweets). Part 1 never touches the 800, so it can't leak into this experiment. The
+pre-registration below is committed before Part 1 starts, so Part 1's reasoning results can't shape H3.
 
 **Same rule as v1: the deliverable is the measurement.**
 
@@ -266,7 +270,7 @@ no new task, no UI. **No prompt edits after the first v2 result is seen.**
 
 ## v2 Definition of done
 
-- [ ] `prompts/neutral_defined.txt` and the three hypotheses committed **before** the first v2 API call
+- [ ] `prompts/neutral_defined.txt` and the three hypotheses committed **before** v2 Part 1 starts and before any call on the 800
 - [ ] `data/sample_800.jsonl` committed: 800 tweets, natural distribution, no overlap with v1 (asserted in code)
 - [ ] All eight runs completed, outputs committed in `results/v2/`
 - [ ] README v2 section: the 2×2×2 table, paired tests, each hypothesis marked supported or not
@@ -290,7 +294,7 @@ no new task, no UI. **No prompt edits after the first v2 result is seen.**
 
 ---
 
-## v2 Phase 2 — Pre-register (before any v2 API call)
+## v2 Phase 2 — Pre-register (before v2 Part 1 and before any call on the 800)
 
 1. Write `prompts/neutral_defined.txt`: the v1 zero-shot prompt plus one definition. Draft:
 
