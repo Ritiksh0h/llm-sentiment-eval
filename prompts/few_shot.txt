@@ -1,0 +1,16 @@
+Classify the sentiment of the following tweet as positive, neutral, or negative.
+
+Respond with exactly one word: positive, neutral, or negative. Do not add punctuation or explanation.
+
+Examples:
+
+Tweet: Ancelotti getting the blame for not accepting Milan in June........
+Sentiment: negative
+
+Tweet: "As Bogaerts hits his 5th home run, why the Red Sox still think he'll hit for power:
+Sentiment: neutral
+
+Tweet: "Carmen Consoli at the Teatro degli Arcimboldi in Milan! January 22, not miss out! Book your hotel at the best rate:
+Sentiment: positive
+
+Tweet: {text}

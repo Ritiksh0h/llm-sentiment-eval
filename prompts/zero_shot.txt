@@ -1,0 +1,5 @@
+Classify the sentiment of the following tweet as positive, neutral, or negative.
+
+Respond with exactly one word: positive, neutral, or negative. Do not add punctuation or explanation.
+
+Tweet: {text}
