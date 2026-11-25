@@ -206,6 +206,7 @@ against the human label is more likely label noise or genuine ambiguity than a w
 ## How to reproduce
 
 ```bash
+git clone https://github.com/Ritiksh0h/llm-sentiment-eval.git && cd llm-sentiment-eval
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 cp .env.example .env        # fill in DEEPSEEK_API_KEY, GROQ_API_KEY and NVIDIA_API_KEY
 

@@ -30,12 +30,12 @@ No chain-of-thought, no self-consistency, no RAG. Those are v2 ideas at best.
 
 Tick all six or it isn't finished:
 
-- [ ] `data/sample_200.jsonl` committed — 200 labelled examples, reproducible
-- [ ] One script runs a (model, prompt) pair and writes raw results to disk
-- [ ] One script scores a results file and prints metrics
-- [ ] All six runs completed, outputs committed
-- [ ] `README.md` with the 3×2 results table and all six confusion matrices
-- [ ] Three to five sentences in the README explaining **why** the failures happen,
+- [x] `data/sample_200.jsonl` committed — 200 labelled examples, reproducible
+- [x] One script runs a (model, prompt) pair and writes raw results to disk
+- [x] One script scores a results file and prints metrics
+- [x] All six runs completed, outputs committed
+- [x] `README.md` with the 3×2 results table and all six confusion matrices
+- [x] Three to five sentences in the README explaining **why** the failures happen,
       grounded in actual misclassified examples you read
 
 ---
