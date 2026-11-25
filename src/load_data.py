@@ -1,4 +1,8 @@
-"""Phase 1: sample 200 TweetEval sentiment test examples -> data/sample_200.jsonl"""
+"""Build every dataset file from TweetEval sentiment. Deterministic: rerunning rewrites identical files.
+
+v1: data/sample_200.jsonl (balanced test sample) and prompts/few_shot.txt (train examples)
+v2: data/sample_800.jsonl (natural-distribution test sample, none of v1's 200)
+"""
 import json
 import random
 from collections import Counter
@@ -53,3 +57,19 @@ instruction, rest = (ROOT / "prompts" / "zero_shot.txt").read_text().split("Twee
 examples = "".join(f"Tweet: {train[j]['text']}\nSentiment: {names[train[j]['label']]}\n\n" for j in shots)
 (ROOT / "prompts" / "few_shot.txt").write_text(instruction + "Examples:\n\n" + examples + "Tweet: {text}" + rest)
 print(f"\nWrote prompts/few_shot.txt with train ids {shots}")
+
+# v2: plain random 800 from test, natural class distribution (no stratifying), none of v1's 200.
+# Own RNG, so v2 never shifts v1's sample and vice versa.
+V2_N = 800
+v1 = [json.loads(l) for l in OUT.open()]
+v1_ids = {r["id"] for r in v1}
+pool = [i for i in range(len(test)) if i not in v1_ids]
+idx2 = sorted(random.Random(SEED).sample(pool, V2_N))
+rows2 = [{"id": i, "text": test[i]["text"], "label": names[test[i]["label"]]} for i in idx2]
+assert not v1_ids & set(idx2) and not {r["text"] for r in v1} & {r["text"] for r in rows2}, "v2 overlaps v1"
+
+OUT2 = OUT.parent / "sample_800.jsonl"
+OUT2.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows2))
+dist = Counter(r["label"] for r in rows2)
+print(f"\nWrote {len(rows2)} rows to {OUT2}")
+print("Distribution:", {k: f"{dist[k]} ({dist[k] / V2_N:.0%})" for k in names})
